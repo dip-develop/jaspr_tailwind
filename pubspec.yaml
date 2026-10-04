@@ -16,26 +16,13 @@ environment:
   sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
-  # Lowered from ^4.0.0 to ^4.0.7 deliberately, not accidentally.
-  #
-  # `build` 4.0.8+ requires `analyzer >=13.3.0`, while `jaspr_builder` pins
-  # `analyzer ^12.1.0` (0.23.5 is the latest published release). Because
-  # `analyzer` is the only point of contact between the two, they cannot be
-  # resolved together and `dart pub get` fails outright in a consuming Jaspr
-  # project. Capping the floor at 4.0.7 lets the resolver back off to the
-  # newest `build` that coexists with jaspr_builder's analyzer constraint.
-  #
-  # Nothing in this package needs build APIs newer than 4.0.7 -- the builder
-  # only touches Builder / BuildStep / BuilderOptions / log, all stable since
-  # build 2.x.
-  #
-  # `build_modules` is dropped: the scratch space is no longer used (see
-  # lib/builder.dart). That also keeps `build_web_compilers` out of the
-  # dependency graph of consuming projects.
+  # Deliberate floor, not an oversight: `build` 4.0.8+ needs `analyzer >=13.3.0`
+  # while `jaspr_builder` pins `analyzer ^12.1.0`, so `dart pub get` fails in a
+  # consuming Jaspr project. Raise it once jaspr_builder relaxes that pin; see
+  # CHANGELOG.md 0.3.7.
   build: ^4.0.7
   glob: ^2.1.2
   path: ^1.8.3
 
 dev_dependencies:
-  # `build_runner` is dropped: this package generates no Dart of its own.
   lints: ^3.0.0
